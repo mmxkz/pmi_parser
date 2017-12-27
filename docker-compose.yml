@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  pmi_parser:
+    build:
+      context: .
+      dockerfile: docker/pmi_parser.dockerfile
+    container_name: pmi_parser
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DEV_DB_HOST: "postgres"
+      REDIS_HOST_SIDEKIQ: "redis://redis:6380/0"
+
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/pmi_parser
+
+  postgres:
+    image: postgres
+    container_name: pmi_parser_postgres
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: pmi_parser_redis
+    ports:
+      - "6380:6380"
+    restart: unless-stopped
+
+
