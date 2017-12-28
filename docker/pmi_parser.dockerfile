@@ -6,7 +6,7 @@ RUN mkdir /pmi_parser
 
 WORKDIR /pmi_parser
 
-CMD bundle exec rails server -b 0.0.0.0
+CMD bundle exec rails server -b 0.0.0.0 -P /tmp/server.pid
 
 ADD Gemfile /pmi_parser/Gemfile
 ADD Gemfile.lock /pmi_parser/Gemfile.lock
