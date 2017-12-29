@@ -1,11 +1,11 @@
 class PmiParserJob < ApplicationJob
-  PMI_URL = "spec/files/pmi_example.html".freeze
+  PMI_PAGE_FILE = "spec/files/pmi_example.html".freeze
   COLUMN = %w(name city country credential earned status).freeze
 
   queue_as :pmi_parser
 
-  def perform
-    parsed_users = parse_users(parse_page)
+  def perform(filename = PMI_PAGE_FILE)
+    parsed_users = parse_users(parse_page(filename))
 
     parsed_users.each_with_index do |user_row, index|
 
@@ -17,6 +17,7 @@ class PmiParserJob < ApplicationJob
 
       save prepare_params(user_data)
     end
+    puts "Success parsed #{filename}"
   end
 
   private
@@ -29,8 +30,8 @@ class PmiParserJob < ApplicationJob
     end
   end
 
-  def parse_page
-    Nokogiri::HTML(open(PMI_URL))
+  def parse_page(filename)
+    Nokogiri::HTML(open(filename))
   end
 
   def parse_users(page)

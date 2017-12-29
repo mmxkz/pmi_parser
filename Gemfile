@@ -23,6 +23,7 @@ gem 'redis', '~> 3.3'
 
 #HTML parsers with XPath and CSS selector support
 gem 'nokogiri'
+gem "rest-client"
 
 group :development, :test do
   # Adds support for Capybara system testing and selenium driver
